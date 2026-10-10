@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExportTycoon Web - RDR2 Style</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="map-screen" class="screen active">
+        <h1 class="map-title">MAPA DE PROGRESO</h1>
+        <p class="map-subtitle">Selecciona un nivel para gestionar tu empresa y redactar tu historia a lo largo de 12 meses</p>
+        
+        <div class="map-nodes">
+            <button class="node-btn unlocked" onclick="iniciarNivel(1)">
+                <span>📍 NIVEL 1: LOGÍSTICA Y CAMIONES</span>
+                <small>Estado: ¡Disponible! | Meta: 12 meses</small>
+            </button>
+            <button id="btn-node-2" class="node-btn locked" onclick="iniciarNivel(2)">
+                <span id="txt-node-2">🔒 NIVEL 2: (BLOQUEADO)</span>
+                <small>Estado: Ensamble tecnológico y software.</small>
+            </button>
+            <button id="btn-node-3" class="node-btn locked" onclick="iniciarNivel(3)">
+                <span id="txt-node-3">🔒 NIVEL 3: (BLOQUEADO)</span>
+                <small>Estado: Retail masivo y control de góndolas.</small>
+            </button>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <header class="top-bar">
+            <button class="btn-back" onclick="mostrarMapa()">⬅ MAPA</button>
+            <h2 id="lbl-empresa">NIVEL 1</h2>
+            <div class="stats-top">
+                <span id="lbl-dinero" class="stat-yellow">K $25,000</span>
+                <span id="lbl-honor" class="stat-cyan">🛡️ HONOR: 100%</span>
+                <span id="lbl-reputacion" class="stat-blue">⭐ 300</span>
+            </div>
+        </header>
+
+        <main class="game-body">
+            <section class="left-panel">
+                <h3 id="lbl-subnivel">FASE 1: EXPORTACIÓN</h3>
+                <div class="time-stats">
+                    <p id="lbl-mes" class="stat-pink">📅 MES: 1 / 12</p>
+                    <p id="lbl-semanas" class="stat-light-blue">⚡ TIEMPO: 4/4 SEMANAS | ÉXITOS: 0</p>
+                </div>
+                <p id="lbl-personal" class="personal-info"><span id="lbl-etiqueta-personal">👷 OPERARIOS</span>: <span id="val-operarios">1</span> | 📜 CONTRATOS: <span id="val-contratos">0</span> | 📉 NÓMINA: <span id="val-nomina">-$1,000</span>/MES</p>
+                
+                <div class="log-box">
+                    <p id="lbl-log">Inicias tus operaciones con una firme visión de éxito. Las decisiones que tomes cada mes moldearán la moral de tu personal y el destino de tu nombre en la industria.</p>
+                </div>
+            </section>
+
+            <section class="right-panel">
+                <h3>ACCIONES</h3>
+                <button id="btn-act-1" class="action-btn btn-cyan" onclick="ejecutarAccion(1)">ACCIÓN 1</button>
+                <button id="btn-act-2" class="action-btn btn-pink" onclick="ejecutarAccion(2)">ACCIÓN 2</button>
+                <button id="btn-act-3" class="action-btn btn-purple" onclick="ejecutarAccion(3)">ACCIÓN 3</button>
+                <button id="btn-act-4" class="action-btn btn-dilema" style="display: none;" onclick="abrirDilemaMoral()">⚖️ DILEMA GERENCIAL</button>
+                
+                <hr class="separator">
+                <button class="action-btn btn-play" onclick="avanzarMes()">PLAY! (SIGUIENTE MES)</button>
+            </section>
+        </main>
+    </div>
+
+    <div id="dilema-modal" class="modal">
+        <div class="dilema-content">
+            <h2>⚖️ DILEMA ÉTICO BIMESTRAL</h2>
+            <p id="dilema-texto">Una encrucijada se presenta en tu gestión. Elige con sabiduría tu camino:</p>
+            <div class="dilema-buttons">
+                <button class="action-btn btn-cyan" onclick="resolverDilema('avaricia')">🏴‍☠️ CAMINO DE LA AVARICIA<br><small>(+ $12,000 de capital inmediato | -25% Honor)</small></button>
+                <button class="action-btn btn-purple" onclick="resolverDilema('etica')">⚜️ CAMINO DEL HONOR<br><small>(Resistir con capital actual | +15% Honor y bonificación de éxito)</small></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameover-screen" class="screen">
+        <div class="gameover-container">
+            <h1 id="gameover-title">DERROTA</h1>
+            <div class="gameover-img-wrapper">
+                <img id="gameover-img" src="" alt="Estado de Fin de Nivel">
+            </div>
+            <p id="gameover-quote" class="gameover-quote"></p>
+            <button class="action-btn btn-play btn-retry" onclick="mostrarMapa()">CONTINUAR</button>
+        </div>
+    </div>
+
+    <div id="modal-popup" class="modal">
+        <div class="modal-content">
+            <img id="meme-img" src="" alt="Estado de Operación">
+        </div>
+    </div>
+
+    <div id="tutorial-modal" class="modal" style="display: flex;">
+        <div class="tutorial-content">
+            <h2>📜 GUÍA DEL GERENTE</h2>
+            <div class="tutorial-body">
+                <p>Bienvenido al simulador gerencial. Tu objetivo es superar los <strong>12 meses</strong> administrando tu empresa con estrategia y honor.</p>
+                <br>
+                <p><strong>⚙️ Mecánicas clave:</strong></p>
+                <ul>
+                    <li><strong>Acciones Principales:</strong> Usa tus 4 semanas mensuales para operar, buscar contratos y contratar personal.</li>
+                    <li><strong>⚖️ Dilema Gerencial:</strong> Cada 2 meses (Mes 2, 4, 6...), aparecerá un botón especial para elegir entre la avaricia (dinero rápido a cambio de honor) o la ética (resistir potenciando tus probabilidades de éxito).</li>
+                    <li><strong>Bancarrota:</strong> Si tus fondos caen bajo <strong>$2,000</strong>, perderás de inmediato.</li>
+                    <li><strong>Honor:</strong> Mantén tu honor sobre el <strong>25%</strong>. Dos acciones buenas seguidas otorgan <strong>+7% de honor</strong>. Un alto honor incrementa tus probabilidades de acierto.</li>
+                </ul>
+            </div>
+            <button class="action-btn btn-play" onclick="cerrarTutorial()">¡ENTENDIDO, EMPEZAR!</button>
+        </div>
+    </div>
+
+    <div id="honor-flash-gain" class="fullscreen-flash-gain"></div>
+    <div id="honor-flash-loss" class="fullscreen-flash-loss"></div>
+    <div id="honor-vignette" class="fullscreen-vignette"></div>
+
+    <div id="rdr-honor-popup" class="rdr-honor-banner">
+        <div class="rdr-icon-container">
+            <span id="rdr-honor-icon-text" class="rdr-icon-text">⚜</span>
+        </div>
+        <div class="rdr-text-group">
+            <h4 id="rdr-honor-title">HONOR: ASCENSO MORAL (+7%)</h4>
+            <p id="rdr-honor-desc">Tus actos definen tu legado...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
