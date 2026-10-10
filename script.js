@@ -104,13 +104,11 @@ function iniciarNivel(numNivel) {
     actualizarUI();
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     document.getElementById("game-screen").classList.add("active");
-    
-    // Abre explícitamente el tutorial al entrar al nivel
-    document.getElementById("tutorial-modal").style.setProperty('display', 'flex', 'important');
+    document.getElementById("tutorial-modal").style.display = "flex";
 }
 
 function cerrarTutorial() {
-    document.getElementById("tutorial-modal").style.setProperty('display', 'none', 'important');
+    document.getElementById("tutorial-modal").style.display = "none";
 }
 
 function actualizarUI() {
@@ -137,8 +135,8 @@ function mostrarMeme(tipo) {
     const img = document.getElementById("meme-img");
     if (modal && img) {
         img.src = tipo === "stonks" ? "stonks +.jpg" : "stonks -.jpg";
-        modal.style.setProperty('display', 'flex', 'important');
-        setTimeout(() => { modal.style.setProperty('display', 'none', 'important'); }, 2000);
+        modal.style.display = "flex";
+        setTimeout(() => { modal.style.display = "none"; }, 2000);
     }
 }
 
@@ -246,11 +244,11 @@ function abrirDilemaMoral() {
     texto.innerText = p.desc;
     btn1.innerHTML = p.b1;
     btn2.innerHTML = p.b2;
-    modal.style.setProperty('display', 'flex', 'important');
+    modal.style.display = "flex";
 }
 
 function resolverDilema(opcion) {
-    document.getElementById("dilema-modal").style.setProperty('display', 'none', 'important');
+    document.getElementById("dilema-modal").style.display = "none";
     dilemaRespondidoEsteCiclo = true;
 
     if (opcion === "echar_culpa") {
