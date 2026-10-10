@@ -8,9 +8,10 @@
 </head>
 <body>
 
+    <!-- PANTALLA 1: MAPA DE PROGRESO -->
     <div id="map-screen" class="screen active">
         <h1 class="map-title">MAPA DE PROGRESO</h1>
-        <p class="map-subtitle">Selecciona un nivel para gestionar tu empresa y redactar tu historia a lo largo de 12 meses</p>
+        <p class="map-subtitle">Selecciona un nivel para gestionar tu empresa y superar los 12 meses</p>
         
         <div class="map-nodes">
             <button class="node-btn unlocked" onclick="iniciarNivel(1)">
@@ -28,6 +29,7 @@
         </div>
     </div>
 
+    <!-- PANTALLA 2: INTERFAZ DEL JUEGO -->
     <div id="game-screen" class="screen">
         <header class="top-bar">
             <button class="btn-back" onclick="mostrarMapa()">⬅ MAPA</button>
@@ -46,10 +48,10 @@
                     <p id="lbl-mes" class="stat-pink">📅 MES: 1 / 12</p>
                     <p id="lbl-semanas" class="stat-light-blue">⚡ TIEMPO: 4/4 SEMANAS | ÉXITOS: 0</p>
                 </div>
-                <p id="lbl-personal" class="personal-info"><span id="lbl-etiqueta-personal">👷 OPERARIOS</span>: <span id="val-operarios">1</span> | 📜 CONTRATOS: <span id="val-contratos">0</span> | 📉 NÓMINA: <span id="val-nomina">-$1,000</span>/MES</p>
+                <p id="lbl-personal" class="personal-info">👷 OPERARIOS: 1 | 📉 NÓMINA: -$1,000/MES</p>
                 
                 <div class="log-box">
-                    <p id="lbl-log">Inicias tus operaciones con una firme visión de éxito. Las decisiones que tomes cada mes moldearán la moral de tu personal y el destino de tu nombre en la industria.</p>
+                    <p id="lbl-log">¡Bienvenido Gerente! Vigila tus fondos ($2,000 límite) y mantén tu honor sobre el 25%.</p>
                 </div>
             </section>
 
@@ -58,7 +60,6 @@
                 <button id="btn-act-1" class="action-btn btn-cyan" onclick="ejecutarAccion(1)">ACCIÓN 1</button>
                 <button id="btn-act-2" class="action-btn btn-pink" onclick="ejecutarAccion(2)">ACCIÓN 2</button>
                 <button id="btn-act-3" class="action-btn btn-purple" onclick="ejecutarAccion(3)">ACCIÓN 3</button>
-                <button id="btn-act-4" class="action-btn btn-dilema" style="display: none;" onclick="abrirDilemaMoral()">⚖️ PROBLEMA CRÍTICO</button>
                 
                 <hr class="separator">
                 <button class="action-btn btn-play" onclick="avanzarMes()">PLAY! (SIGUIENTE MES)</button>
@@ -66,62 +67,36 @@
         </main>
     </div>
 
-    <div id="dilema-modal" class="modal">
-        <div class="dilema-content">
-            <h2>⚖️ INCIDENCIA OPERATIVA</h2>
-            <p id="dilema-texto">Un problema grave ha sacudido las instalaciones. ¿Cómo decides afrontarlo?</p>
-            <div class="dilema-buttons">
-                <button id="btn-dilema-1" class="action-btn btn-cyan" onclick="resolverDilema('echar_culpa')">Cargar culpa al personal<br><small>(Proteges tu dinero | -25% Honor)</small></button>
-                <button id="btn-dilema-2" class="action-btn btn-purple" onclick="resolverDilema('hacerse_cargo')">Hacerse cargo como líder<br><small>(Asumes el costo monetario | +15% Honor y bonificación de éxito)</small></button>
-            </div>
-        </div>
-    </div>
-
+    <!-- PANTALLA 3: DERROTA / GAME OVER -->
     <div id="gameover-screen" class="screen">
         <div class="gameover-container">
             <h1 id="gameover-title">DERROTA</h1>
             <div class="gameover-img-wrapper">
-                <img id="gameover-img" src="" alt="Estado de Fin de Nivel">
+                <img id="gameover-img" src="" alt="Derrota">
             </div>
             <p id="gameover-quote" class="gameover-quote"></p>
-            <button class="action-btn btn-play btn-retry" onclick="mostrarMapa()">CONTINUAR</button>
+            <button class="action-btn btn-play btn-retry" onclick="mostrarMapa()">REINTENTAR</button>
         </div>
     </div>
 
+    <!-- PANTALLA 4: MODAL MEME -->
     <div id="modal-popup" class="modal">
         <div class="modal-content">
             <img id="meme-img" src="" alt="Estado de Operación">
         </div>
     </div>
 
-    <div id="tutorial-modal" class="modal">
-        <div class="tutorial-content">
-            <h2>📜 GUÍA DEL GERENTE</h2>
-            <div class="tutorial-body">
-                <p>Bienvenido al simulador gerencial. Tu objetivo es superar los <strong>12 meses</strong> administrando tu empresa con estrategia y honor.</p>
-                <br>
-                <p><strong>⚙️ Mecánicas clave:</strong></p>
-                <ul>
-                    <li><strong>Acciones Principales:</strong> Usa tus 4 semanas mensuales para operar, buscar contratos y contratar personal.</li>
-                    <li><strong>⚖️ Incidencias Críticas:</strong> Cada 2 meses surgirá un problema grave en tu sector. Puedes culpar a tus empleados o hacerte cargo como líder.</li>
-                    <li><strong>Bancarrota:</strong> Si tus fondos caen bajo <strong>$2,000</strong>, perderás de inmediato.</li>
-                    <li><strong>Honor:</strong> Mantén tu honor sobre el <strong>25%</strong>. Dos acciones buenas seguidas otorgan <strong>+7% de honor</strong>.</li>
-                </ul>
-            </div>
-            <button class="action-btn btn-play" onclick="cerrarTutorial()">¡ENTENDIDO, EMPEZAR!</button>
-        </div>
-    </div>
-
+    <!-- EFECTOS VISUALES RDR2 -->
     <div id="honor-flash-gain" class="fullscreen-flash-gain"></div>
     <div id="honor-flash-loss" class="fullscreen-flash-loss"></div>
     <div id="honor-vignette" class="fullscreen-vignette"></div>
 
     <div id="rdr-honor-popup" class="rdr-honor-banner">
         <div class="rdr-icon-container">
-            <span id="rdr-honor-icon-text" class="rdr-icon-text">⚜</span>
+            <span id="rdr-honor-icon-text" class="rdr-icon-text">⚔</span>
         </div>
         <div class="rdr-text-group">
-            <h4 id="rdr-honor-title">HONOR: ASCENSO MORAL (+7%)</h4>
+            <h4 id="rdr-honor-title">RUMBO MORAL</h4>
             <p id="rdr-honor-desc">Tus actos definen tu legado...</p>
         </div>
     </div>
