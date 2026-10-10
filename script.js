@@ -104,8 +104,6 @@ function iniciarNivel(numNivel) {
     actualizarUI();
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     document.getElementById("game-screen").classList.add("active");
-    
-    // AQUÍ SE ABRE EL TUTORIAL AL ENTRAR AL NIVEL
     document.getElementById("tutorial-modal").style.display = "flex";
 }
 
@@ -379,7 +377,7 @@ function ejecutarAccion(tipo) {
         let msgsPersonal = {
             1: `👥 Contratas operarios bajo condiciones justas. Tu plantilla asciende a ${personal} operario(s) en el taller.`,
             2: `👥 Incorporas ingenieros especialistas. Tu equipo tecnológico cuenta con ${personal} experto(s) laborando.`,
-            3: `👥 Contratas cajeros y reponedores. Tienda con ${personal} empleado(s) atendiendo el negocio.`
+            3: `👥 Contratas cajeros y reponedores. Tu tienda cuenta con ${personal} empleado(s) atendiendo el negocio.`
         };
         document.getElementById("lbl-log").innerText = msgsPersonal[nivelActual];
     }
