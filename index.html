@@ -58,7 +58,7 @@
                 <button id="btn-act-1" class="action-btn btn-cyan" onclick="ejecutarAccion(1)">ACCIÓN 1</button>
                 <button id="btn-act-2" class="action-btn btn-pink" onclick="ejecutarAccion(2)">ACCIÓN 2</button>
                 <button id="btn-act-3" class="action-btn btn-purple" onclick="ejecutarAccion(3)">ACCIÓN 3</button>
-                <button id="btn-act-4" class="action-btn btn-dilema" style="display: none;" onclick="abrirDilemaMoral()">⚖️ DILEMA GERENCIAL</button>
+                <button id="btn-act-4" class="action-btn btn-dilema" style="display: none;" onclick="abrirDilemaMoral()">⚖️ PROBLEMA CRÍTICO</button>
                 
                 <hr class="separator">
                 <button class="action-btn btn-play" onclick="avanzarMes()">PLAY! (SIGUIENTE MES)</button>
@@ -66,13 +66,14 @@
         </main>
     </div>
 
+    <!-- MODAL DE PROBLEMA / DILEMA OPERATIVO -->
     <div id="dilema-modal" class="modal">
         <div class="dilema-content">
-            <h2>⚖️ DILEMA ÉTICO BIMESTRAL</h2>
-            <p id="dilema-texto">Una encrucijada se presenta en tu gestión. Elige con sabiduría tu camino:</p>
+            <h2>⚖️ INCIDENCIA OPERATIVA</h2>
+            <p id="dilema-texto">Un problema grave ha sacudido las instalaciones. ¿Cómo decides afrontarlo?</p>
             <div class="dilema-buttons">
-                <button class="action-btn btn-cyan" onclick="resolverDilema('avaricia')">🏴‍☠️ CAMINO DE LA AVARICIA<br><small>(+ $12,000 de capital inmediato | -25% Honor)</small></button>
-                <button class="action-btn btn-purple" onclick="resolverDilema('etica')">⚜️ CAMINO DEL HONOR<br><small>(Resistir con capital actual | +15% Honor y bonificación de éxito)</small></button>
+                <button id="btn-dilema-1" class="action-btn btn-cyan" onclick="resolverDilema('echar_culpa')">Cargar culpa al personal<br><small>(Proteges tu dinero | -25% Honor)</small></button>
+                <button id="btn-dilema-2" class="action-btn btn-purple" onclick="resolverDilema('hacerse_cargo')">Hacerse cargo como líder<br><small>(Asumes el costo monetario | +15% Honor y bonificación de éxito)</small></button>
             </div>
         </div>
     </div>
@@ -103,9 +104,9 @@
                 <p><strong>⚙️ Mecánicas clave:</strong></p>
                 <ul>
                     <li><strong>Acciones Principales:</strong> Usa tus 4 semanas mensuales para operar, buscar contratos y contratar personal.</li>
-                    <li><strong>⚖️ Dilema Gerencial:</strong> Cada 2 meses (Mes 2, 4, 6...), aparecerá un botón especial para elegir entre la avaricia (dinero rápido a cambio de honor) o la ética (resistir potenciando tus probabilidades de éxito).</li>
+                    <li><strong>⚖️ Incidencias Críticas:</strong> Cada 2 meses surgirá un problema grave en tu sector. Puedes culpar a tus empleados (salvas tus fondos pero pierdes honor) o hacerte cargo como líder (inviertes dinero pero ganas honor y mejoras tus probabilidades).</li>
                     <li><strong>Bancarrota:</strong> Si tus fondos caen bajo <strong>$2,000</strong>, perderás de inmediato.</li>
-                    <li><strong>Honor:</strong> Mantén tu honor sobre el <strong>25%</strong>. Dos acciones buenas seguidas otorgan <strong>+7% de honor</strong>. Un alto honor incrementa tus probabilidades de acierto.</li>
+                    <li><strong>Honor:</strong> Mantén tu honor sobre el <strong>25%</strong>. Dos acciones buenas seguidas otorgan <strong>+7% de honor</strong>.</li>
                 </ul>
             </div>
             <button class="action-btn btn-play" onclick="cerrarTutorial()">¡ENTENDIDO, EMPEZAR!</button>
