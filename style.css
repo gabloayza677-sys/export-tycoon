@@ -385,7 +385,6 @@ body {
     margin-bottom: 6px;
 }
 
-/* EFECTOS Y FLASHES EN PANTALLA COMPLETA */
 .fullscreen-flash-gain {
     display: none;
     position: fixed;
@@ -423,7 +422,6 @@ body {
     100% { opacity: 0; }
 }
 
-/* BANNER DE HONOR SUPERIOR (CENTRADO ABSOLUTO EN LA VENTANA) */
 .rdr-honor-banner {
     display: none;
     position: fixed;
