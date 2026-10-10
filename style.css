@@ -16,6 +16,7 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 .screen {
@@ -298,7 +299,7 @@ body {
 .modal {
     display: none;
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: rgba(0, 0, 0, 0.85);
     justify-content: center;
     align-items: center;
@@ -384,13 +385,13 @@ body {
     margin-bottom: 6px;
 }
 
-/* EFECTOS Y FLASHES EN PANTALLA CON DESVANECIMIENTO PROGRESIVO */
+/* EFECTOS Y FLASHES EN PANTALLA COMPLETA */
 .fullscreen-flash-gain {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: rgba(0, 213, 255, 0.25);
-    z-index: 9000;
+    z-index: 9500;
     pointer-events: none;
 }
 
@@ -399,7 +400,7 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: rgba(220, 0, 0, 0.35);
-    z-index: 9000;
+    z-index: 9500;
     pointer-events: none;
 }
 
@@ -408,7 +409,7 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(13, 3, 3, 0.7) 75%, rgba(38, 5, 5, 0.9) 100%);
-    z-index: 8999;
+    z-index: 9499;
     pointer-events: none;
 }
 
@@ -422,7 +423,7 @@ body {
     100% { opacity: 0; }
 }
 
-/* BANNER DE HONOR SUPERIOR (CORREGIDO Y CENTRADO SIEMPRE) */
+/* BANNER DE HONOR SUPERIOR (CENTRADO ABSOLUTO EN LA VENTANA) */
 .rdr-honor-banner {
     display: none;
     position: fixed;
@@ -436,7 +437,8 @@ body {
     z-index: 9999;
     align-items: center;
     gap: 16px;
-    min-width: 380px;
+    width: 420px;
+    max-width: 90vw;
 }
 
 .rdr-honor-banner.animate-banner {
