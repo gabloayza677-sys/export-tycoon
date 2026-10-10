@@ -296,9 +296,9 @@ body {
     margin-top: 5px;
 }
 
-/* CLASE MODAL OCULTA POR DEFECTO PARA EVITAR BLOQUEOS */
+/* MODAL OCULTO POR DEFECTO PERO PERMITIENDO FLEX EN JS */
 .modal {
-    display: none !important;
+    display: none;
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background-color: rgba(0, 0, 0, 0.85);
