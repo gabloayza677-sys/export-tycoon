@@ -195,34 +195,62 @@ function registrarBuenaAccion() {
     }
 }
 
+// PROBLEMAS CRÍTICOS ESPECÍFICOS Y CONCORDANTES PARA CADA NIVEL
 function abrirDilemaMoral() {
     const modal = document.getElementById("dilema-modal");
     const texto = document.getElementById("dilema-texto");
-    
-    const dilemas = {
-        1: "Se requiere despachar un lote forzoso de camiones sin mantenimiento. Puedes aceptar contratos turbios por dinero rápido a cambio de desconfianza laboral, o mantener la ética resistiendo con tus fondos y honrando a tus operarios.",
-        2: "Un inversor externo ofrece capital jugoso si reduces drásticamente los controles de calidad en el ensamblaje de PCs. ¿Optas por la avaricia o decides resistir protegiendo la integridad de la marca?",
-        3: "Los proveedores exigen subir los precios en góndola explotando al consumidor. Puedes aceptar el trato lucrativo perdiendo el favor del pueblo, o mantener la lealtad resistiendo con firmeza."
+    const btn1 = document.getElementById("btn-dilema-1");
+    const btn2 = document.getElementById("btn-dilema-2");
+
+    const problemas = {
+        1: {
+            desc: "¡Incidente en la ruta! Un camión de carga sufrió un fuerte choque debido a la falta de supervisión en los frenos.",
+            b1: "Culpar formalmente al chofer por negligencia<br><small>(No pierdes dinero | -25% Honor)</small>",
+            b2: "Asumir la falla gerencial y pagar los daños y reparaciones<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
+        },
+        2: {
+            desc: "¡Control de calidad fallido! Un lote entero de PCs salió con los pines del procesador doblados por un error en el banco de ensamblaje.",
+            b1: "Sancionar y culpar a los técnicos en nómina<br><small>(No pierdes dinero | -25% Honor)</small>",
+            b2: "Reemplazar los procesadores dañados de tu bolsillo<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
+        },
+        3: {
+            desc: "¡Reclamo sanitario crítico! Se descubrió un lote de productos lácteos vencidos en las góndolas principales del supermercado.",
+            b1: "Echar la culpa a los reponedores y ocultar el reporte<br><small>(No pierdes dinero | -25% Honor)</small>",
+            b2: "Retirar todo el producto y compensar públicamente a los clientes<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
+        }
     };
 
-    texto.innerText = dilemas[nivelActual];
+    let p = problemas[nivelActual];
+    texto.innerText = p.desc;
+    btn1.innerHTML = p.b1;
+    btn2.innerHTML = p.b2;
     modal.style.display = "flex";
 }
 
 function resolverDilema(opcion) {
     document.getElementById("dilema-modal").style.display = "none";
 
-    if (opcion === "avaricia") {
-        dinero += 12000;
+    if (opcion === "echar_culpa") {
         honor = Math.max(0, honor - 25);
         bonifHonorExito = 0;
-        mostrarAlertaHonor(-25, "¡Decisión despiadada! Obtuviste capital, pero tus empleados desconfían profundamente de ti (-25% Honor).");
-        document.getElementById("lbl-log").innerText = "🏴‍☠️ ¡CAMINO DE LA AVARICIA! Inyectaste dinero rápido a tus arcas, pero el ambiente laboral se ha vuelto frío y distante.";
-    } else if (opcion === "etica") {
+        mostrarAlertaHonor(-25, "¡Decisión injusta! Salvaste tus fondos, pero tus empleados sienten profunda desconfianza de ti (-25% Honor).");
+        document.getElementById("lbl-log").innerText = "⚠️ ¡CULPA AL PERSONAL! Te lavaste las manos ante el incidente. El dinero quedó intacto, pero el clima laboral se tornó hostil y frío.";
+    } else if (opcion === "hacerse_cargo") {
+        let costoReparacion = 4000;
+        dinero -= costoReparacion;
         honor = Math.min(100, honor + 15);
-        bonifHonorExito = 0.25;
-        mostrarAlertaHonor(15, "¡Elección honorable! Resistes con tus fondos y ganas el respeto absoluto de tu equipo (+15% Honor).");
-        document.getElementById("lbl-log").innerText = "⚜️ ¡CAMINO DEL HONOR! Decisiones firmes y éticas. Tus operarios doblan esfuerzos y las probabilidades de éxito en tus operaciones aumentan considerablemente.";
+        bonifHonorExito = 0.30; // Fuerte bonificación a la probabilidad de éxito
+        mostrarAlertaHonor(15, "¡Liderazgo ejemplar! Asumiste la responsabilidad económica y ganaste la lealtad de tu equipo (+15% Honor).");
+        document.getElementById("lbl-log").innerText = `⚜️ ¡LIDERAZGO ÍNTEGRO! Invertiste $${costoReparacion.toLocaleString()} para solucionar el problema. Tu equipo confía en ti y las probabilidades de éxito en tus operaciones aumentan notablemente.`;
+    }
+
+    if (dinero <= 2000) {
+        mostrarGameOver("dinero");
+        return;
+    }
+    if (honor < 25) {
+        mostrarGameOver("honor_bajo");
+        return;
     }
 
     actualizarUI();
@@ -437,5 +465,4 @@ function mostrarGameOver(causa) {
     }
 
     screen.classList.add("active");
-}
 }
