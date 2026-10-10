@@ -14,6 +14,7 @@ let totalExitos = 0;
 let exitosSeguidos = 0;
 let falloEnElMes = false;
 let bonifHonorExito = 0;
+let dilemaRespondidoEsteCiclo = false;
 
 window.onload = function() {
     mostrarMapa();
@@ -63,6 +64,7 @@ function iniciarNivel(numNivel) {
     exitosSeguidos = 0;
     falloEnElMes = false;
     bonifHonorExito = 0;
+    dilemaRespondidoEsteCiclo = false;
 
     const configs = {
         1: { 
@@ -121,7 +123,7 @@ function actualizarUI() {
     document.getElementById("val-nomina").innerText = `-$${(personal * gastosMes).toLocaleString()}`;
 
     let btnDilema = document.getElementById("btn-act-4");
-    if (mes % 2 === 0) {
+    if (mes % 2 === 0 && !dilemaRespondidoEsteCiclo) {
         btnDilema.style.display = "block";
     } else {
         btnDilema.style.display = "none";
@@ -150,11 +152,12 @@ function mostrarAlertaHonor(cambio, consecuenciaTexto) {
 
     if (!banner) return;
 
-    banner.classList.remove("gain", "loss");
     if (flashGain) flashGain.style.display = "none";
     if (flashLoss) flashLoss.style.display = "none";
     if (vignette) vignette.style.display = "none";
     banner.style.display = "none";
+
+    banner.classList.remove("gain", "loss");
 
     if (cambio > 0) {
         title.innerText = `HONOR: ASCENSO MORAL (+${cambio}%)`;
@@ -172,9 +175,6 @@ function mostrarAlertaHonor(cambio, consecuenciaTexto) {
     if (vignette) vignette.style.display = "block";
     
     banner.style.display = "flex";
-    banner.style.animation = 'none';
-    banner.offsetHeight;
-    banner.style.animation = 'rdrSlideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
     setTimeout(() => {
         if (flashGain) flashGain.style.display = "none";
@@ -195,7 +195,6 @@ function registrarBuenaAccion() {
     }
 }
 
-// PROBLEMAS CRÍTICOS ESPECÍFICOS Y CONCORDANTES PARA CADA NIVEL
 function abrirDilemaMoral() {
     const modal = document.getElementById("dilema-modal");
     const texto = document.getElementById("dilema-texto");
@@ -206,7 +205,7 @@ function abrirDilemaMoral() {
         1: {
             desc: "¡Incidente en la ruta! Un camión de carga sufrió un fuerte choque debido a la falta de supervisión en los frenos.",
             b1: "Culpar formalmente al chofer por negligencia<br><small>(No pierdes dinero | -25% Honor)</small>",
-            b2: "Asumir la falla gerencial y pagar los daños y reparaciones<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
+            b2: "Asumir la falla gerencial y pagar los daños<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
         },
         2: {
             desc: "¡Control de calidad fallido! Un lote entero de PCs salió con los pines del procesador doblados por un error en el banco de ensamblaje.",
@@ -216,7 +215,7 @@ function abrirDilemaMoral() {
         3: {
             desc: "¡Reclamo sanitario crítico! Se descubrió un lote de productos lácteos vencidos en las góndolas principales del supermercado.",
             b1: "Echar la culpa a los reponedores y ocultar el reporte<br><small>(No pierdes dinero | -25% Honor)</small>",
-            b2: "Retirar todo el producto y compensar públicamente a los clientes<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
+            b2: "Retirar el producto y compensar públicamente<br><small>(Pierdes $4,000 | +15% Honor y bonificación de éxito)</small>"
         }
     };
 
@@ -229,19 +228,20 @@ function abrirDilemaMoral() {
 
 function resolverDilema(opcion) {
     document.getElementById("dilema-modal").style.display = "none";
+    dilemaRespondidoEsteCiclo = true; // Desactiva el botón de problema para el resto del mes
 
     if (opcion === "echar_culpa") {
         honor = Math.max(0, honor - 25);
         bonifHonorExito = 0;
-        mostrarAlertaHonor(-25, "¡Decisión injusta! Salvaste tus fondos, pero tus empleados sienten profunda desconfianza de ti (-25% Honor).");
+        mostrarAlertaHonor(-25, "¡Decisión injusta! Salvaste tus fondos, pero tus empleados sienten profunda desconfianza (-25% Honor).");
         document.getElementById("lbl-log").innerText = "⚠️ ¡CULPA AL PERSONAL! Te lavaste las manos ante el incidente. El dinero quedó intacto, pero el clima laboral se tornó hostil y frío.";
     } else if (opcion === "hacerse_cargo") {
         let costoReparacion = 4000;
         dinero -= costoReparacion;
         honor = Math.min(100, honor + 15);
-        bonifHonorExito = 0.30; // Fuerte bonificación a la probabilidad de éxito
+        bonifHonorExito = 0.30;
         mostrarAlertaHonor(15, "¡Liderazgo ejemplar! Asumiste la responsabilidad económica y ganaste la lealtad de tu equipo (+15% Honor).");
-        document.getElementById("lbl-log").innerText = `⚜️ ¡LIDERAZGO ÍNTEGRO! Invertiste $${costoReparacion.toLocaleString()} para solucionar el problema. Tu equipo confía en ti y las probabilidades de éxito en tus operaciones aumentan notablemente.`;
+        document.getElementById("lbl-log").innerText = `⚜️ ¡LIDERAZGO ÍNTEGRO! Invertiste $${costoReparacion.toLocaleString()} para solucionar el problema. Tu equipo confía en ti y las probabilidades de éxito aumentan.`;
     }
 
     if (dinero <= 2000) {
@@ -406,6 +406,7 @@ function avanzarMes() {
     semanas = 4;
     accionesEsteMes = 0;
     bonifHonorExito = 0;
+    dilemaRespondidoEsteCiclo = false;
 
     if (dinero <= 2000) {
         mostrarGameOver("dinero");
