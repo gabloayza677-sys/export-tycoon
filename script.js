@@ -10,7 +10,7 @@ let gameState = {
     dilemaPendiente: false
 };
 
-// Datos de los Nivel
+// Datos de los Nivel y Dilemas
 const nivelesData = {
     1: {
         titulo: "Nivel 1: Logística de Harina de Pescado",
@@ -73,16 +73,19 @@ function actualizarUI() {
     document.getElementById("desc-nivel").textContent = dataNivel.desc;
 }
 
-// Mostrar alertas dinámicas con desvanecimiento
+// Mostrar alertas dinámicas corregidas (para que aparezcan bien los mensajes)
 function mostrarAlerta(mensaje) {
     const box = document.getElementById("alerta-box");
     box.textContent = mensaje;
     box.classList.remove("hidden");
     box.style.opacity = "1";
 
-    setTimeout(() => {
+    // Limpiar temporizador previo si existe para evitar conflictos
+    if (window.alertaTimeout) clearTimeout(window.alertaTimeout);
+
+    window.alertaTimeout = setTimeout(() => {
         box.style.opacity = "0";
-        setTimeout(() => box.classList.add("hidden"), 1000);
+        setTimeout(() => box.classList.add("hidden"), 500);
     }, 3000);
 }
 
@@ -187,7 +190,7 @@ function resolverDilema(opcion) {
     actualizarUI();
 }
 
-// Pantallas Finales
+// Pantallas Finales con nombres exactos de tus imágenes
 function finalizarJuego(causa) {
     const pantallaFinal = document.getElementById("pantalla-final");
     const titulo = document.getElementById("final-titulo");
