@@ -108,11 +108,9 @@ function contratarPersonal() {
 
 // Control del flujo mensual y niveles
 function avanzarMes() {
-    // Pagar salarios
     let costoNomina = gameState.personal * gameState.gastosBase;
     gameState.dinero -= costoNomina;
 
-    // Verificar Bancarrota por dinero
     if (gameState.dinero <= 2000) {
         finalizarJuego("dinero");
         return;
@@ -120,18 +118,15 @@ function avanzarMes() {
 
     gameState.mes++;
 
-    // Subir de nivel cada 4 meses
     if (gameState.mes === 5) gameState.nivel = 2;
     if (gameState.mes === 9) gameState.nivel = 3;
 
-    // Detonar dilema crítico del nivel
     if (gameState.mes === 3 || gameState.mes === 7 || gameState.mes === 11) {
         lanzarDilema();
     } else {
         mostrarAlerta(`Avanzaste al mes ${gameState.mes}. Nómina pagada: -$${costoNomina}`);
     }
 
-    // Comprobar Victoria al llegar al mes 12
     if (gameState.mes > 12) {
         finalizarJuego("victoria");
         return;
@@ -140,7 +135,7 @@ function avanzarMes() {
     actualizarUI();
 }
 
-// Dilemas Morales (Estilo RDR2)
+// Dilemas Morales
 function lanzarDilema() {
     gameState.dilemaPendiente = true;
     const dataNivel = nivelesData[gameState.nivel];
@@ -184,7 +179,6 @@ function resolverDilema(opcion) {
     document.getElementById("seccion-dilema").classList.add("hidden");
     gameState.dilemaPendiente = false;
 
-    // Verificar derrota por honor
     if (gameState.honor < 25) {
         finalizarJuego("honor");
         return;
@@ -193,7 +187,7 @@ function resolverDilema(opcion) {
     actualizarUI();
 }
 
-// Pantallas Finales
+// Pantallas Finales (vinculadas exactamente a tus nombres de imagen)
 function finalizarJuego(causa) {
     const pantallaFinal = document.getElementById("pantalla-final");
     const titulo = document.getElementById("final-titulo");
@@ -221,5 +215,4 @@ function reiniciarJuego() {
     location.reload();
 }
 
-// Inicializar al cargar
 window.onload = actualizarUI;
