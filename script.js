@@ -1,4 +1,4 @@
-// Estado Inicial del Juego
+// Estado General del Juego
 let gameState = {
     mes: 1,
     nivel: 1,
@@ -10,7 +10,7 @@ let gameState = {
     dilemaPendiente: false
 };
 
-// Configuración de los 3 Niveles
+// Datos de los Nivel
 const nivelesData = {
     1: {
         titulo: "Nivel 1: Logística de Harina de Pescado",
@@ -47,7 +47,7 @@ const nivelesData = {
     }
 };
 
-// Actualizar la interfaz de usuario (UI)
+// Actualizar la interfaz gráfica
 function actualizarUI() {
     document.getElementById("mes-actual").textContent = gameState.mes;
     document.getElementById("nivel-actual").textContent = gameState.nivel;
@@ -67,13 +67,13 @@ function actualizarUI() {
         honorBar.style.backgroundColor = "#f44336";
     }
 
-    // Actualizar datos de nivel
+    // Actualizar información del nivel
     const dataNivel = nivelesData[gameState.nivel];
     document.getElementById("titulo-nivel").textContent = dataNivel.titulo;
     document.getElementById("desc-nivel").textContent = dataNivel.desc;
 }
 
-// Alertas emergentes
+// Mostrar alertas dinámicas con desvanecimiento
 function mostrarAlerta(mensaje) {
     const box = document.getElementById("alerta-box");
     box.textContent = mensaje;
@@ -106,12 +106,11 @@ function contratarPersonal() {
     actualizarUI();
 }
 
-// Avance del tiempo y cambio de niveles
+// Control del flujo mensual y niveles
 function avanzarMes() {
     let costoNomina = gameState.personal * gameState.gastosBase;
     gameState.dinero -= costoNomina;
 
-    // Derrota por falta de capital
     if (gameState.dinero <= 2000) {
         finalizarJuego("dinero");
         return;
@@ -119,18 +118,15 @@ function avanzarMes() {
 
     gameState.mes++;
 
-    // Progresión de niveles
     if (gameState.mes === 5) gameState.nivel = 2;
     if (gameState.mes === 9) gameState.nivel = 3;
 
-    // Disparar dilemas en los meses 3, 7 y 11
     if (gameState.mes === 3 || gameState.mes === 7 || gameState.mes === 11) {
         lanzarDilema();
     } else {
         mostrarAlerta(`Avanzaste al mes ${gameState.mes}. Nómina pagada: -$${costoNomina}`);
     }
 
-    // Victoria al superar el mes 12
     if (gameState.mes > 12) {
         finalizarJuego("victoria");
         return;
@@ -139,7 +135,7 @@ function avanzarMes() {
     actualizarUI();
 }
 
-// Lógica de Dilemas Morales
+// Dilemas Morales
 function lanzarDilema() {
     gameState.dilemaPendiente = true;
     const dataNivel = nivelesData[gameState.nivel];
@@ -183,7 +179,6 @@ function resolverDilema(opcion) {
     document.getElementById("seccion-dilema").classList.add("hidden");
     gameState.dilemaPendiente = false;
 
-    // Derrota por pérdida de honor
     if (gameState.honor < 25) {
         finalizarJuego("honor");
         return;
@@ -192,7 +187,7 @@ function resolverDilema(opcion) {
     actualizarUI();
 }
 
-// Finales del Juego
+// Pantallas Finales
 function finalizarJuego(causa) {
     const pantallaFinal = document.getElementById("pantalla-final");
     const titulo = document.getElementById("final-titulo");
