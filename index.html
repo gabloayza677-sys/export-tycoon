@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- Encabezado y Estadísticas -->
+        <!-- Encabezado / Estado -->
         <header>
             <h1>Simulador Gerencial 3.0</h1>
             <div class="stats-bar">
@@ -18,18 +18,17 @@
                 <div class="stat">Honor: <span id="honor">100</span>%</div>
                 <div class="stat">Personal: <span id="personal">1</span> operarios</div>
             </div>
-            <!-- Barra Visual de Honor -->
+            <!-- Barra de Honor con desvanecimiento -->
             <div class="honor-container">
                 <div id="honor-bar"></div>
             </div>
         </header>
 
-        <!-- Mensajes y Alertas -->
+        <!-- Panel de Alertas / Notificaciones -->
         <div id="alerta-box" class="alerta-box hidden"></div>
 
-        <!-- Contenido Principal -->
+        <!-- Vista de Nivel y Contrato -->
         <main>
-            <!-- Panel de Control del Nivel -->
             <section class="card">
                 <h2 id="titulo-nivel">Nivel 1: Logística y Exportación de Harina de Pescado</h2>
                 <p id="desc-nivel">Gestiona la producción y despacho en el puerto comercial.</p>
@@ -41,7 +40,7 @@
                 </div>
             </section>
 
-            <!-- Modal de Dilemas Morales -->
+            <!-- Dilema / Evento Crítico -->
             <section id="seccion-dilema" class="card dilema-card hidden">
                 <h3 id="dilema-titulo">⚠️ Evento Crítico Detectado</h3>
                 <p id="dilema-desc">Ha ocurrido un problema grave en la línea de producción.</p>
@@ -51,7 +50,7 @@
                 </div>
             </section>
 
-            <!-- Pantalla Final / Fin de Juego -->
+            <!-- Pantalla Final / Game Over -->
             <section id="pantalla-final" class="card final-card hidden">
                 <h2 id="final-titulo">Resultado del Juego</h2>
                 <img id="final-img" src="" alt="Resultado" class="final-img">
