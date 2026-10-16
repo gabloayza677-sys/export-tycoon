@@ -487,4 +487,4 @@ function mostrarGameOver(causa) {
     }
 
     screen.classList.add("active");
-};
+}
