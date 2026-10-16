@@ -3,102 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExportTycoon Web - RDR2 Style</title>
+    <title>Simulador Gerencial: Export & Tycoon</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- PANTALLA 1: MAPA DE PROGRESO -->
-    <div id="map-screen" class="screen active">
-        <h1 class="map-title">MAPA DE PROGRESO</h1>
-        <p class="map-subtitle">Selecciona un nivel para gestionar tu empresa y superar los 12 meses</p>
-        
-        <div class="map-nodes">
-            <button class="node-btn unlocked" onclick="iniciarNivel(1)">
-                <span>📍 NIVEL 1: LOGÍSTICA Y CAMIONES</span>
-                <small>Estado: ¡Disponible! | Meta: 12 meses</small>
-            </button>
-            <button id="btn-node-2" class="node-btn locked" onclick="iniciarNivel(2)">
-                <span id="txt-node-2">🔒 NIVEL 2: (BLOQUEADO)</span>
-                <small>Estado: Ensamble tecnológico y software.</small>
-            </button>
-            <button id="btn-node-3" class="node-btn locked" onclick="iniciarNivel(3)">
-                <span id="txt-node-3">🔒 NIVEL 3: (BLOQUEADO)</span>
-                <small>Estado: Retail masivo y control de góndolas.</small>
-            </button>
-        </div>
-    </div>
-
-    <!-- PANTALLA 2: INTERFAZ DEL JUEGO -->
-    <div id="game-screen" class="screen">
-        <header class="top-bar">
-            <button class="btn-back" onclick="mostrarMapa()">⬅ MAPA</button>
-            <h2 id="lbl-empresa">NIVEL 1</h2>
-            <div class="stats-top">
-                <span id="lbl-dinero" class="stat-yellow">K $25,000</span>
-                <span id="lbl-honor" class="stat-cyan">🛡️ HONOR: 100%</span>
-                <span id="lbl-reputacion" class="stat-blue">⭐ 300</span>
+    <div class="game-container">
+        <!-- Encabezado / Estado -->
+        <header>
+            <h1>Simulador Gerencial 3.0</h1>
+            <div class="stats-bar">
+                <div class="stat">Mes: <span id="mes-actual">1</span>/12</div>
+                <div class="stat">Nivel: <span id="nivel-actual">1</span></div>
+                <div class="stat">Capital: $<span id="dinero">25000</span></div>
+                <div class="stat">Honor: <span id="honor">100</span>%</div>
+                <div class="stat">Personal: <span id="personal">1</span> operarios</div>
+            </div>
+            <!-- Barra de Honor con desvanecimiento -->
+            <div class="honor-container">
+                <div id="honor-bar"></div>
             </div>
         </header>
 
-        <main class="game-body">
-            <section class="left-panel">
-                <h3 id="lbl-subnivel">FASE 1: EXPORTACIÓN</h3>
-                <div class="time-stats">
-                    <p id="lbl-mes" class="stat-pink">📅 MES: 1 / 12</p>
-                    <p id="lbl-semanas" class="stat-light-blue">⚡ TIEMPO: 4/4 SEMANAS | ÉXITOS: 0</p>
-                </div>
-                <p id="lbl-personal" class="personal-info">👷 OPERARIOS: 1 | 📉 NÓMINA: -$1,000/MES</p>
+        <!-- Panel de Alertas / Notificaciones -->
+        <div id="alerta-box" class="alerta-box hidden"></div>
+
+        <!-- Vista de Nivel y Contrato -->
+        <main>
+            <section class="card">
+                <h2 id="titulo-nivel">Nivel 1: Logística y Exportación de Harina de Pescado</h2>
+                <p id="desc-nivel">Gestiona la producción y despacho en el puerto comercial.</p>
                 
-                <div class="log-box">
-                    <p id="lbl-log">¡Bienvenido Gerente! Vigila tus fondos ($2,000 límite) y mantén tu honor sobre el 25%.</p>
+                <div class="actions">
+                    <button id="btn-contrato" onclick="firmarContrato()">Firmar Contrato Activo</button>
+                    <button id="btn-personal" onclick="contratarPersonal()">Contratar Personal (+$1,000/mes)</button>
+                    <button id="btn-siguiente" onclick="avanzarMes()">Avanzar Mes</button>
                 </div>
             </section>
 
-            <section class="right-panel">
-                <h3>ACCIONES</h3>
-                <button id="btn-act-1" class="action-btn btn-cyan" onclick="ejecutarAccion(1)">ACCIÓN 1</button>
-                <button id="btn-act-2" class="action-btn btn-pink" onclick="ejecutarAccion(2)">ACCIÓN 2</button>
-                <button id="btn-act-3" class="action-btn btn-purple" onclick="ejecutarAccion(3)">ACCIÓN 3</button>
-                
-                <hr class="separator">
-                <button class="action-btn btn-play" onclick="avanzarMes()">PLAY! (SIGUIENTE MES)</button>
+            <!-- Dilema / Evento Crítico -->
+            <section id="seccion-dilema" class="card dilema-card hidden">
+                <h3 id="dilema-titulo">⚠️ Evento Crítico Detectado</h3>
+                <p id="dilema-desc">Ha ocurrido un problema grave en la línea de producción.</p>
+                <div class="dilema-options">
+                    <button id="btn-opcion-a" onclick="resolverDilema('a')">Opción A</button>
+                    <button id="btn-opcion-b" onclick="resolverDilema('b')">Opción B</button>
+                </div>
+            </section>
+
+            <!-- Pantalla Final / Game Over -->
+            <section id="pantalla-final" class="card final-card hidden">
+                <h2 id="final-titulo">Resultado del Juego</h2>
+                <img id="final-img" src="" alt="Resultado" class="final-img">
+                <p id="final-desc"></p>
+                <button onclick="reiniciarJuego()">Volver a Jugar</button>
             </section>
         </main>
-    </div>
-
-    <!-- PANTALLA 3: DERROTA / GAME OVER -->
-    <div id="gameover-screen" class="screen">
-        <div class="gameover-container">
-            <h1 id="gameover-title">DERROTA</h1>
-            <div class="gameover-img-wrapper">
-                <img id="gameover-img" src="" alt="Derrota">
-            </div>
-            <p id="gameover-quote" class="gameover-quote"></p>
-            <button class="action-btn btn-play btn-retry" onclick="mostrarMapa()">REINTENTAR</button>
-        </div>
-    </div>
-
-    <!-- PANTALLA 4: MODAL MEME -->
-    <div id="modal-popup" class="modal">
-        <div class="modal-content">
-            <img id="meme-img" src="" alt="Estado de Operación">
-        </div>
-    </div>
-
-    <!-- EFECTOS VISUALES RDR2 -->
-    <div id="honor-flash-gain" class="fullscreen-flash-gain"></div>
-    <div id="honor-flash-loss" class="fullscreen-flash-loss"></div>
-    <div id="honor-vignette" class="fullscreen-vignette"></div>
-
-    <div id="rdr-honor-popup" class="rdr-honor-banner">
-        <div class="rdr-icon-container">
-            <span id="rdr-honor-icon-text" class="rdr-icon-text">⚔</span>
-        </div>
-        <div class="rdr-text-group">
-            <h4 id="rdr-honor-title">RUMBO MORAL</h4>
-            <p id="rdr-honor-desc">Tus actos definen tu legado...</p>
-        </div>
     </div>
 
     <script src="script.js"></script>
