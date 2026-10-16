@@ -75,6 +75,7 @@ h1 {
     margin-bottom: 20px;
     font-weight: bold;
     text-align: center;
+    opacity: 1;
     transition: opacity 1s ease-out;
 }
 
